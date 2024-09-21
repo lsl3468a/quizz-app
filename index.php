@@ -162,7 +162,7 @@
         }
 
         function loadEnigme(id) {
-            fetch(`/enigme/${id}`)
+            fetch(`enigme.php?id=${id}`)
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('enigmeid').innerText = `${data.enigmeid}`;
