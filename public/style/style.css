@@ -1,0 +1,153 @@
+* {
+    background-color: #fc6c9e;
+    overflow : hidden visible;
+    
+}
+
+body { 
+    font-family: Arial, sans-serif; 
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    margin: 0; 
+    padding: 0; 
+    position: relative;
+    background-color: #fc6c9e; /* Couleur de fond */
+}
+
+.container { 
+    max-width: 400px; 
+    margin: 0 auto; 
+    text-align: center; 
+    padding: 20px; 
+    z-index: 1; /* S'assure que le contenu est au-dessus */
+}
+
+.background-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; 
+    clip-path: inset(0);
+    z-index: 0; /* Doit être en dessous du contenu */
+}
+
+.word {
+    position: absolute;
+    opacity: 0.8;
+    font-weight: bold;
+    color: rgb(255, 255, 255, 0.6); /* Couleur des mots */
+    animation: move 5s infinite; 
+}
+
+@keyframes move {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(calc(100vw - 100%), calc(100vh - 40%)); } /* Ajustez les valeurs */
+    50% { transform: translate(calc(-100vw + 100%), calc(100vh - 40%)); }
+    75% { transform: translate(calc(100vw - 100%), calc(-100vh + 40%)); }
+    100% { transform: translate(0, 0); }
+}
+
+.content {
+    position: relative; 
+    z-index: 1; /* Doit être au-dessus de l'animation */
+    color: #333; /* Couleur du texte */
+    padding: 5px; 
+    text-align: center; 
+}
+
+
+.hidden { 
+    display: none; 
+}
+
+button { 
+    background-color: #f04e4e; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    cursor: pointer; 
+    margin: 20px;
+    border-radius: 5px;
+    position: relative; 
+    z-index: 1; /* Doit être au-dessus de l'animation */
+}
+
+input { 
+    padding: 10px;
+    width: 70%;
+    margin: 10px 0;
+    appearance: none;
+    border: none;
+    outline: none;
+    border-bottom: .2em solid #E91E63;
+    background-color: rgb(255, 255, 255, 0.5);
+    border-radius: .2em .2em 0 0;
+    /* padding: .4em; */
+    color: white;
+    position: relative; 
+    z-index: 1; /* Doit être au-dessus de l'animation */
+    font-weight: bold;
+    
+}
+
+h1, h2, h3, h4, h5, h6 {
+    text-decoration: underline;
+    margin: 30px 0; /* Espace vertical au-dessus et au-dessous des titres */
+    position: relative; 
+    z-index: 1; /* Doit être au-dessus de l'animation */
+}
+
+p {
+    line-height: 1.6; /* Augmente l'espacement entre les lignes de texte */
+    margin: 25px 0;
+    font-size: large;
+    position: relative; 
+    z-index: 1; /* Doit être au-dessus de l'animation */
+}
+
+.fixed-bottom-image {
+    position: fixed; /* Fixe l'image par rapport à la fenêtre de visualisation */
+    bottom: 10px; /* Espace de 10 pixels depuis le bas */
+    left: 50%; /* Centre horizontalement */
+    transform: translateX(-50%); /* Ajuste le centrage de l'image */
+    width: 10%; /* Ajustez selon vos besoins */
+    max-width: 150px; /* Limite la largeur maximale de l'image */
+    height: auto; /* Garde les proportions de l'image */
+    padding: 10px 0; /* Ajoute un espace autour de l'image */
+    z-index: 1000; /* S'assure que l'image soit au-dessus des autres éléments */
+}
+
+.styled-button {
+    position: relative; /* Nécessaire pour positionner l'icône */
+    padding: 15px 25px; /* Espace autour du texte du bouton */
+    background-color: #ffffff; 
+    color: white; /* Couleur du texte */
+    border: none; /* Supprime la bordure par défaut */
+    border-radius: 5px; /* Arrondi les coins du bouton */
+    font-size: 16px; /* Taille du texte */
+    cursor: pointer; /* Change le curseur au survol */
+    display: inline-flex; /* Pour aligner le texte et l'image */
+    align-items: center; /* Centre verticalement le texte et l'icône */
+}
+
+.button-text {
+    margin-right: 10px; /* Espace entre le texte et l'icône */
+    background-color: #ffffff; 
+    font-weight: bold;
+    color : #fc6c9e
+}
+
+.button-icon {
+    background-color: #ffffff; 
+    position: absolute; /* Positionne l'icône par rapport au bouton */
+    top: 5px; /* Distance depuis le haut du bouton */
+    right: 5px; /* Distance depuis la droite du bouton */
+    width: 20px; /* Largeur de l'icône */
+    height: 20px; /* Hauteur de l'icône */
+}
+
+
+
