@@ -174,7 +174,7 @@
 
         function validerReponse() {
             const reponse = document.getElementById('reponse').value;
-            fetch(`/enigme/${currentEnigme}/reponse`, {
+            fetch(`enigme.php?id=${currentEnigme}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ reponse })
@@ -199,6 +199,7 @@
             const firstName = document.getElementById('firstName').value;
             const lastName = document.getElementById('lastName').value;
             const ufr = document.getElementById('ufr').value;
+            const bonus = document.getElementById('bonus').value === 'true' ? true : false;
 
             // Réinitialise le message avant chaque nouvelle requête
             document.getElementById('final-message').innerText = '';
@@ -209,10 +210,17 @@
                 return; // Arrête l'exécution de la fonction si des champs sont vides
             }
 
-            fetch('/submit', {
+            const data = new URLSearchParams();
+            data.append('firstName', firstName);
+            data.append('lastName', lastName);
+            data.append('ufr', ufr);
+            data.append('bonus', bonus ? 'true' : 'false');
+
+            console.log(data)
+            
+            fetch('submit.php', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ firstName, lastName, ufr })
+                body: data // Pas besoin de définir Content-Type car fetch le fera automatiquement
             })
             .then(response => {
                 // Gérer les erreurs 400 et 500
@@ -231,11 +239,13 @@
                 document.getElementById('end').classList.remove('hidden');
             })
             .catch(error => {
+                console.log(error.message);
                 // Gère les erreurs et affiche le message
-                document.getElementById('final-message').innerText = error.message;
+                document.getElementById('final-message').innerText = "Erreur, veuillez réessayez plus tard !";
             });
 
         }
+
     </script>
 </body>
 </html>

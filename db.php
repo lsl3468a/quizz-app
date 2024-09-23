@@ -1,4 +1,5 @@
 <?php
+
 $host = 'db5016377320.hosting-data.io'; // Changez-le si votre base de données est ailleurs
 $db = 'dbs13312682'; // Remplacez par le nom de votre base de données
 $user = 'dbu5561348'; // Nom d'utilisateur MySQL

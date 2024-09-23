@@ -1,5 +1,4 @@
 <?php
-// Liste des énigmes
 $enigmes = [
     1 => ["enigmeid" => "Lieu 1/5 :", "question" => "16.224196, -61.528309", "reponse" => "Dépistage"],
     2 => ["enigmeid" => "Lieu 2/5 :", "question" => "C'est ici que les connaissances se dévoilent...", "reponse" => "Solidarité"],
@@ -8,31 +7,42 @@ $enigmes = [
     5 => ["enigmeid" => "Lieu 5/5 :", "question" => "Ce lieu porte le nom d'un docteur...", "reponse" => "Ruban"],
 ];
 
-// Récupérer l'id de l'énigme
-if (isset($_GET['id'])) {
+header('Content-Type: application/json');  // Assurez-vous que la réponse est bien du JSON
+
+// Gestion des requêtes GET pour afficher l'énigme
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $id = intval($_GET['id']);
+    
     if (isset($enigmes[$id])) {
         echo json_encode($enigmes[$id]);
     } else {
-        http_response_code(404);
+        http_response_code(404); // Énigme non trouvée
         echo json_encode(["error" => "Énigme non trouvée."]);
     }
 }
-
-// Vérification de la réponse
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = intval($_GET['id']);
-    $reponse = strtolower(trim($_POST['reponse']));
+// Gestion des requêtes POST pour valider une réponse
+elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = json_decode(file_get_contents('php://input'), true);
     
-    if (isset($enigmes[$id])) {
-        if (strtolower($enigmes[$id]['reponse']) === $reponse) {
-            echo json_encode(["success" => true]);
+    if (isset($data['reponse'])) {
+        $id = intval($_GET['id']);
+        $reponse = strtolower(trim($data['reponse']));
+
+        if (isset($enigmes[$id])) {
+            if (strtolower($enigmes[$id]['reponse']) === $reponse) {
+                echo json_encode(["success" => true]);
+            } else {
+                echo json_encode(["success" => false]);
+            }
         } else {
-            echo json_encode(["success" => false]);
+            http_response_code(404);
+            echo json_encode(["error" => "Énigme non trouvée."]);
         }
     } else {
-        http_response_code(404);
-        echo json_encode(["error" => "Énigme non trouvée."]);
+        http_response_code(400);
+        echo json_encode(["error" => "Réponse non fournie."]);
     }
+} else {
+    http_response_code(405); // Méthode non autorisée
+    echo json_encode(["error" => "Méthode non autorisée"]);
 }
-?>
