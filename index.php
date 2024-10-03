@@ -215,8 +215,6 @@
             data.append('lastName', lastName);
             data.append('ufr', ufr);
             data.append('bonus', bonus ? 'true' : 'false');
-
-            console.log(data)
             
             fetch('submit.php', {
                 method: 'POST',
@@ -226,7 +224,8 @@
                 // Gérer les erreurs 400 et 500
                 if (response.status === 400) {
                     return response.json().then(data => {
-                        throw new Error(data.message || 'Erreur de validation: cet utilisateur existe déjà.');
+                        document.getElementById('final-message').innerText = "Vous avez déjà participé !";
+                      	throw new Error(data.message || 'Vous avez déjà participé !');
                     });
                 } else if (response.status === 500) {
                     throw new Error('Erreur serveur, veuillez réessayer plus tard.');
@@ -239,9 +238,8 @@
                 document.getElementById('end').classList.remove('hidden');
             })
             .catch(error => {
-                console.log(error.message);
                 // Gère les erreurs et affiche le message
-                document.getElementById('final-message').innerText = "Erreur, veuillez réessayez plus tard !";
+                document.getElementById('final-message').innerText = error.message;
             });
 
         }
