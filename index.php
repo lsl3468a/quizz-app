@@ -50,9 +50,9 @@
         <div id="final-screen" class="hidden">
             <h1>Félicitations !</h1>
             <p>Remplissez vos coordonnées pour participer au tirage au sort.</p>
-            <input type="text" id="firstName" placeholder="Prénom">
-            <input type="text" id="lastName" placeholder="Nom">
-            <input type="text" id="ufr" placeholder="UFR">
+            <input type="text" id="firstName" placeholder="Prénom" maxlength="20">
+            <input type="text" id="lastName" placeholder="Nom" maxlength="25">
+            <input type="text" id="ufr" placeholder="UFR" maxlength="20">
             <button class="styled-button" onclick="submitCoordonnees()">
                 <span class="button-text">Je participe</span>
                 <img src="./public/images/icone.png" alt="Icône" class="button-icon">
@@ -127,8 +127,8 @@
             word.style.animationDelay = `${Math.random() * 5}s`;
         });
 
-        const correctAnswer = "1998"; // Réponse correcte pour la question bonus
-    
+        // Suppression de cette ligne : const correctAnswer = "1998";
+
         document.querySelectorAll('.bonus-option').forEach(button => {
             button.addEventListener('click', function() {
                 // Réinitialiser la couleur des boutons
@@ -137,20 +137,35 @@
                 });
 
                 const userAnswer = this.getAttribute('data-answer');
-                if (userAnswer === correctAnswer) {
-                    this.style.backgroundColor = 'green'; // Correct -> vert
-                    document.getElementById('bonus').value = 'true'; // Le bonus est correct
-                } else {
-                    this.style.backgroundColor = 'red'; // Incorrect -> rouge
-                    document.querySelector(`button[data-answer="${correctAnswer}"]`).style.backgroundColor = 'green'; // Bon bouton en vert
-                    document.getElementById('bonus').value = 'false'; // Le bonus est incorrect
-                    
-                }
-                // Attendre 5 secondes avant de cacher la question bonus et afficher l'écran final
-                setTimeout(() => {
-                    document.getElementById('bonus').classList.add('hidden'); // Cache la question bonus
-                    document.getElementById('final-screen').classList.remove('hidden'); // Affiche l'écran final
-                }, 2500); // 5000 millisecondes = 5 secondes
+
+                // Faire une requête au serveur pour vérifier la réponse
+                fetch('check_bonus.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ answer: userAnswer })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.correct) {
+                        this.style.backgroundColor = 'green'; // Correct -> vert
+                        this.style.color = 'white';
+                        document.getElementById('bonus').value = 'true'; // Le bonus est correct
+                    } else {
+                        this.style.backgroundColor = 'red'; // Incorrect -> rouge
+                        this.style.color = 'white';
+                        document.querySelector(`button[data-answer="${data.correctAnswer}"]`).style.backgroundColor = 'green'; // Afficher la bonne réponse en vert
+                        document.querySelector(`button[data-answer="${data.correctAnswer}"]`).style.color = 'white';
+                        document.getElementById('bonus').value = 'false'; // Le bonus est incorrect
+                    }
+
+                    // Attendre 5 secondes avant de cacher la question bonus et afficher l'écran final
+                    setTimeout(() => {
+                        document.getElementById('bonus').classList.add('hidden'); // Cache la question bonus
+                        document.getElementById('final-screen').classList.remove('hidden'); // Affiche l'écran final
+                    }, 2500);
+                });
             });
         });
 

@@ -38,8 +38,8 @@ body {
     position: absolute;
     opacity: 0.8;
     font-weight: bold;
-    color: rgb(255, 255, 255, 0.6); /* Couleur des mots */
-    animation: move 5s infinite; 
+    color: rgb(255, 255, 255, 0.9); /* Couleur des mots */
+    animation: move 8s infinite; 
 }
 
 @keyframes move {
@@ -64,8 +64,8 @@ body {
 }
 
 button { 
-    background-color: #f04e4e; 
-    color: white; 
+    background-color: #ffffff;
+    color: #fc6c9e;
     border: none; 
     padding: 10px 20px; 
     cursor: pointer; 
@@ -73,6 +73,7 @@ button {
     border-radius: 5px;
     position: relative; 
     z-index: 1; /* Doit être au-dessus de l'animation */
+    font-weight: bold;
 }
 
 input { 
